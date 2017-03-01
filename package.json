@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-react": "^6.23.0",
+    "phpdate-js": "^1.0.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "webpack": "^2.2.1"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^2.4.1"
+  },
+  "scripts": {
+    "start": "NODE_ENV=development webpack-dev-server --hot --inline"
+  }
+}
