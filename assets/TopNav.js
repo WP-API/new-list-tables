@@ -9,6 +9,13 @@ export default class TopNav extends React.Component {
 		};
 	}
 
+	componentWillReceiveProps( nextProps ) {
+		// If receiving page update, wipe input.
+		if ( nextProps.page !== this.props.page ) {
+			this.setState({ page: null });
+		}
+	}
+
 	render() {
 		const { page, total, totalPages, onJump } = this.props;
 
