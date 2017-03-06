@@ -79,6 +79,7 @@ function prepare_page() {
 		'20170228',
 		true
 	);
+	wp_enqueue_style( 'editor-buttons' );
 }
 
 function render_page() {
