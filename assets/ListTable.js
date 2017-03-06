@@ -19,7 +19,7 @@ export default class ListTable extends React.Component {
 	}
 
 	render() {
-		const { items, loading, page, posts, total, totalPages, onDelete, onJump, onUpdate } = this.props;
+		const { items, page, posts, onUpdate } = this.props;
 
 		const itemComponents = items.map( item => {
 			return <Row
@@ -27,7 +27,7 @@ export default class ListTable extends React.Component {
 				item={ item }
 				posts={ posts }
 				onEdit={ () => this.props.onEdit( item.id ) }
-				onDelete={ () => onDelete( item.id ) }
+				onDelete={ () => this.props.onDelete( item.id ) }
 				onReply={ () => this.props.onReply( item.id ) }
 				onUpdate={ data => onUpdate( item.id, data ) }
 			/>
@@ -59,9 +59,9 @@ export default class ListTable extends React.Component {
 		return <div className="nlk-table">
 			<TopNav
 				page={ page }
-				total={ total }
-				totalPages={ totalPages }
-				onJump={ page => onJump( page ) }
+				total={ this.props.total }
+				totalPages={ this.props.totalPages }
+				onJump={ page => this.props.onJump( page ) }
 			/>
 			<table className="wp-list-table widefat fixed striped">
 				<thead>
@@ -70,7 +70,7 @@ export default class ListTable extends React.Component {
 					</tr>
 				</thead>
 				<tbody id="the-comment-list">
-					{ ! loading ? itemComponents : (
+					{ ! this.props.loading ? itemComponents : (
 						<tr>
 							<td colSpan={ Object.keys( columns ).length }>
 								Loading&hellip;
