@@ -8,7 +8,7 @@ export default class Response extends React.Component {
 		return <td className="response column-response">
 			{ post ?
 				<div className="response-links">
-					<a href={ 'post.php?id=' + post.id + '&action=edit' } className="comments-edit-item-link">
+					<a href={ 'post.php?post=' + post.id + '&action=edit' } className="comments-edit-item-link">
 						{ post.title.rendered }
 					</a>
 					<a href={ post.link } className="comments-view-item-link">
