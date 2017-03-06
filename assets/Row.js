@@ -8,7 +8,7 @@ export default class Row extends React.Component {
 
 		const columnElements = Object.keys( columns ).map( key => {
 			const column = key in columnMap ? columnMap[ key ] : ColumnLegacy;
-			const props = { key, item, posts, onDelete, onUpdate };
+			const props = Object.assign( {}, this.props, { key } );
 			return React.createElement( column, props );
 		});
 

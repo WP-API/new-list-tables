@@ -9,7 +9,7 @@ export default class Content extends React.Component {
 		return <td className="comment column-comment">
 			<div dangerouslySetInnerHTML={{ __html: item.content.rendered }} />
 
-			<RowActions item={ item } onDelete={ onDelete } onUpdate={ onUpdate } />
+			<RowActions { ...this.props } />
 		</td>;
 	}
 }
