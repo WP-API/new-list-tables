@@ -14,12 +14,14 @@ export default class Response extends React.Component {
 					<a href={ post.link } className="comments-view-item-link">
 						View Post
 					</a>
+					{/*
 					<span className="post-com-count-wrapper">
 						<a className="post-com-count post-com-count-approved" href="#">
 							<span className="comment-count-approved" aria-hidden="true">¯\_(ツ)_/¯</span>
 							<span className="screen-reader-text">Unknown number of comments</span>
 						</a>
 					</span>
+					*/}
 				</div>
 			: null }
 		</td>;
