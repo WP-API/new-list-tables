@@ -19,6 +19,19 @@ export default class ListTable extends React.Component {
 
 	render() {
 		const { items, loading, page, posts, total, totalPages, onDelete, onJump, onUpdate } = this.props;
+
+		const itemComponents = items.map( item => {
+			return <Row
+				key={ item.id }
+				item={ item }
+				posts={ posts }
+				onEdit={ () => this.props.onEdit( item.id ) }
+				onDelete={ () => onDelete( item.id ) }
+				onReply={ () => this.props.onReply( item.id ) }
+				onUpdate={ data => onUpdate( item.id, data ) }
+			/>
+		});
+
 		return <div className="nlk-table">
 			<TopNav
 				page={ page }
@@ -33,15 +46,7 @@ export default class ListTable extends React.Component {
 					</tr>
 				</thead>
 				<tbody id="the-comment-list">
-					{ ! loading ? items.map( item =>
-						<Row
-							key={ item.id }
-							item={ item }
-							posts={ posts }
-							onDelete={ () => onDelete( item.id ) }
-							onUpdate={ data => onUpdate( item.id, data ) }
-						/>
-					) : (
+					{ ! loading ? itemComponents : (
 						<tr>
 							<td colSpan={ Object.keys( columns ).length }>
 								Loading&hellip;
