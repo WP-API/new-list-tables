@@ -71,7 +71,7 @@ export default class QuickEdit extends React.Component {
 				<legend>{ heading }</legend>
 
 				<div id="replycontainer">
-					<label for="replycontent" className="screen-reader-text">Comment</label>
+					<label className="screen-reader-text">Comment</label>
 					<Editor
 						value={ data.content }
 						onChange={ content => this.setState({ content }) }
@@ -92,7 +92,7 @@ export default class QuickEdit extends React.Component {
 					</div>
 
 					<div className="inside">
-						<label for="author-email">Email</label>
+						<label>Email</label>
 						{' '}
 						<input
 							name="newcomment_author_email"
@@ -104,7 +104,7 @@ export default class QuickEdit extends React.Component {
 					</div>
 
 					<div className="inside">
-						<label for="author-url">URL</label>
+						<label>URL</label>
 						{' '}
 						<input
 							className="code"
