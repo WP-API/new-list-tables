@@ -26,9 +26,11 @@ export default class App extends React.Component {
 
 		this.state ={
 			comments: [],
+			editing: null,
 			loading: true,
 			posts: {},
 			page: 1,
+			replying: null,
 			total: 0,
 			totalPages: 1,
 		};
@@ -77,14 +79,18 @@ export default class App extends React.Component {
 	render() {
 		const { comments, loading, page, posts, total, totalPages } = this.state;
 		return <ListTable
+			editing={ this.state.editing }
 			items={ comments }
 			loading={ loading }
 			page={ page }
 			posts={ posts }
+			replying={ this.state.replying }
 			total={ total }
 			totalPages={ totalPages }
+			onEdit={ id => this.setState({ editing: id }) }
 			onDelete={ id => this.onDelete( id ) }
 			onJump={ page => this.onJump( page ) }
+			onReply={ id => this.setState({ replying: id }) }
 			onUpdate={ (id, data) => this.onUpdate( id, data ) }
 		/>
 	}
