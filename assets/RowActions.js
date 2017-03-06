@@ -1,6 +1,6 @@
 import React from 'react';
 
-// const canEdit = item => 'spam' !== item.status && 'trash' !== item.status;
+const canEdit = item => 'spam' !== item.status && 'trash' !== item.status;
 const actions = {
 	unapprove: ({ item, onUpdate }) => item.status === "approved" ?
 		<a
@@ -50,22 +50,30 @@ const actions = {
 	: null,
 	/*edit: ({ item }) => canEdit( item ) ?
 		<a aria-label='Edit this comment'>Edit</a>
-	: null,
-	quickedit: ({ item }) => canEdit( item ) ?
-		<a className="vim-q comment-inline" aria-label="Quick edit this comment inline">Quick&nbsp;Edit</a>
-	: null,
-	reply: ({ item }) => canEdit( item ) ?
-		<a className="vim-r comment-inline" aria-label="Reply to this comment">Reply</a>
 	: null,*/
+	quickedit: ({ item, onEdit }) => canEdit( item ) ?
+		<a
+			className="vim-q comment-inline"
+			aria-label="Quick edit this comment inline"
+			onClick={ () => onEdit() }
+		>Quick&nbsp;Edit</a>
+	: null,
+	reply: ({ item, onReply }) => canEdit( item ) ?
+		<a
+			className="vim-r comment-inline"
+			aria-label="Reply to this comment"
+			onClick={ () => onReply() }
+		>Reply</a>
+	: null,
 };
 
 export default class RowActions extends React.Component {
 	render() {
-		const { item, onDelete, onUpdate } = this.props;
+		const { item } = this.props;
 
 		// Invoke the actions.
 		const children = Object.keys( actions ).map( action => {
-			const content = actions[ action ]( { item, onDelete, onUpdate } );
+			const content = actions[ action ]( this.props );
 			return content ? <span key={ action } className={ action }>{ content }</span> : null;
 		});
 
