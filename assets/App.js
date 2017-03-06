@@ -1,5 +1,6 @@
 import React from 'react';
 
+import columns from './columns';
 import ListTable from './ListTable';
 
 export default class App extends React.Component {
@@ -79,6 +80,7 @@ export default class App extends React.Component {
 	render() {
 		const { comments, loading, page, posts, total, totalPages } = this.state;
 		return <ListTable
+			columns={ columns }
 			editing={ this.state.editing }
 			items={ comments }
 			loading={ loading }

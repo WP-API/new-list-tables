@@ -7,6 +7,7 @@ import TopNav from './TopNav';
 
 export default class ListTable extends React.Component {
 	getHeaderCells() {
+		const { columns } = this.props;
 		return Object.keys( columns ).map( key =>
 			<th
 				key={ key }
@@ -19,11 +20,12 @@ export default class ListTable extends React.Component {
 	}
 
 	render() {
-		const { items, page, posts, onUpdate } = this.props;
+		const { columns, items, page, posts, onUpdate } = this.props;
 
 		const itemComponents = items.map( item => {
 			return <Row
 				key={ item.id }
+				columns={ columns }
 				item={ item }
 				posts={ posts }
 				onEdit={ () => this.props.onEdit( item.id ) }
