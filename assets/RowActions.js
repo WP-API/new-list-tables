@@ -6,6 +6,7 @@ const actions = {
 		<a
 			aria-label='Unapprove this comment'
 			className='vim-u vim-destructive'
+			href="#"
 			onClick={ () => onUpdate( { status: 'hold' } ) }
 		>Unapprove</a>
 	: null,
@@ -13,6 +14,7 @@ const actions = {
 		<a
 			aria-label='Approve this comment'
 			className='vim-a vim-destructive'
+			href="#"
 			onClick={ () => onUpdate( { status: 'approved' } ) }
 		>Approve</a>
 	: null,
@@ -20,12 +22,14 @@ const actions = {
 		<a
 			aria-label='Restore this comment from the spam'
 			className='vim-z vim-destructive'
+			href="#"
 			onClick={ () => onUpdate( { status: 'unspam' } ) }
 		>Not Spam</a>
 	: null,
 	spam: ({ item, onUpdate }) => item.status !== 'spam' ?
 		<a
 			aria-label='Mark this comment as spam'
+			href="#"
 			onClick={ () => onUpdate( { status: 'spam' } ) }
 		>Spam</a>
 	: null,
@@ -33,18 +37,21 @@ const actions = {
 		<a
 			aria-label='Restore this comment from the Trash'
 			className='vim-z vim-destructive'
+			href="#"
 			onClick={ () => onUpdate( { status: 'untrash' } ) }
 		>Restore</a>
 	: null,
 	delete: ({ item, onDelete }) => ( item.status === 'spam' || item.status === 'trash' ) ?
 		<a
 			aria-label='Delete this comment permanently'
+			href="#"
 			onClick={ () => onDelete() }
 		>Delete Permanently</a>
 	: null,
 	trash: ({ item, onDelete }) => ( item.status !== 'spam' && item.status !== 'trash' ) ?
 		<a
 			aria-label='Move this comment to the Trash'
+			href="#"
 			onClick={ () => onDelete() }
 		>Trash</a>
 	: null,
@@ -55,6 +62,7 @@ const actions = {
 		<a
 			className="vim-q comment-inline"
 			aria-label="Quick edit this comment inline"
+			href="#"
 			onClick={ () => onEdit() }
 		>Quick&nbsp;Edit</a>
 	: null,
@@ -62,6 +70,7 @@ const actions = {
 		<a
 			className="vim-r comment-inline"
 			aria-label="Reply to this comment"
+			href="#"
 			onClick={ () => onReply() }
 		>Reply</a>
 	: null,
