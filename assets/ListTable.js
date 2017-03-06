@@ -90,3 +90,30 @@ export default class ListTable extends React.Component {
 		</div>;
 	}
 }
+
+ListTable.propTypes = {
+	items: React.PropTypes.arrayOf( React.PropTypes.shape({
+		id: React.PropTypes.number.isRequired,
+	})).isRequired,
+	loading: React.PropTypes.bool,
+	page: React.PropTypes.number,
+	total: React.PropTypes.number,
+	totalPages: React.PropTypes.number,
+	onDelete: React.PropTypes.func,
+	onEdit: React.PropTypes.func,
+	onJump: React.PropTypes.func,
+	onReply: React.PropTypes.func,
+	onUpdate: React.PropTypes.func,
+};
+
+ListTable.defaultProps = {
+	loading: false,
+	page: 1,
+	total: 0,
+	totalPages: 0,
+	onDelete: () => {},
+	onEdit: () => {},
+	onJump: () => {},
+	onReply: () => {},
+	onUpdate: () => {},
+};
