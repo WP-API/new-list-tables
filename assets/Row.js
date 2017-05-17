@@ -7,7 +7,7 @@ export default class Row extends React.Component {
 		const { columns, item, posts, onDelete, onUpdate } = this.props;
 
 		const columnElements = Object.keys( columns ).map( key => {
-			const props = Object.assign( {}, this.props, { key } );
+			const props = Object.assign( {}, this.props, { key, column: columns[ key ] } );
 			return React.createElement( columns[ key ].component, props );
 		});
 
