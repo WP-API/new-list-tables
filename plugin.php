@@ -80,6 +80,19 @@ function prepare_page() {
 		true
 	);
 	wp_enqueue_style( 'editor-buttons' );
+
+	set_current_screen( 'edit-comments' );
+	$list_table = _get_list_table('WP_Comments_List_Table');
+
+	$columns = get_registered_columns( $list_table );
+	wp_localize_script(
+		'nlk-react',
+		'nlkOptions',
+		array(
+			'columns'       => $columns->columns,
+			'primaryColumn' => $columns->primary,
+		)
+	);
 }
 
 function render_page() {
@@ -92,6 +105,33 @@ function render_page() {
 		</div>
 	</div>
 	<?php
+}
+
+function get_registered_columns( $list_table ) {
+	list( $columns, $hidden, $sortable, $primary ) = $list_table->get_column_info();
+
+	$data = (object) array(
+		'primary' => $primary,
+		'columns' => (object) array(),
+	);
+	foreach ( $columns as $id => $label ) {
+		$item = (object) array(
+			'id' => $id,
+			'label' => $label,
+		);
+		if ( isset( $sortable[ $id ] ) ) {
+			$item->sort = array(
+				'field'      => $sortable[ $id ][0],
+				'descending' => $sortable[ $id ][1]
+			);
+		} else {
+			$item->sort = false;
+		}
+
+		$data->columns->$id = $item;
+	}
+
+	return $data;
 }
 
 function get_columns( $request ) {

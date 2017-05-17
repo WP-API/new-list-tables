@@ -5,7 +5,7 @@ import App from './App';
 
 const init = () => {
 	ReactDOM.render(
-		<App />,
+		<App {...window.nlkOptions} />,
 		document.getElementById( 'comments-form' )
 	);
 };

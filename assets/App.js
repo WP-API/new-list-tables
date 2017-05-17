@@ -3,6 +3,8 @@ import React from 'react';
 import columns from './columns';
 import ListTable from './ListTable';
 
+import ColumnLegacy from './Columns/Legacy';
+
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -77,8 +79,35 @@ export default class App extends React.Component {
 		post.save( data, options );
 	}
 
+	getColumns() {
+		const componentable = columns;
+		const specified = this.props.columns;
+
+		const columnList = Object.entries( specified ).map( ( [ key, value ] ) => {
+			const component = key in componentable ? componentable[ key ].component : ColumnLegacy;
+			const data = {
+				label: value.label,
+				className: `column-${key}`,
+				header: component.getHeader( value ),
+				component,
+			};
+
+			// Hack:
+			if ( data.label.startsWith( '<input' ) ) {
+				data.label = '';
+			}
+
+			return { [key]: data };
+		});
+
+		// Reassemble into an object.
+		return columnList.reduce( ( obj, item ) => Object.assign( {}, obj, item ), {} );
+	}
+
 	render() {
 		const { comments, loading, page, posts, total, totalPages } = this.state;
+		const columns = this.getColumns();
+
 		return <ListTable
 			columns={ columns }
 			editing={ this.state.editing }
