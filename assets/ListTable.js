@@ -8,15 +8,7 @@ import TopNav from './TopNav';
 export default class ListTable extends React.Component {
 	getHeaderCells() {
 		const { columns } = this.props;
-		return Object.keys( columns ).map( key =>
-			<th
-				key={ key }
-				className={ columns[ key ].className }
-				id={ key }
-			>
-				{ columns[ key ].label }
-			</th>
-		);
+		return Object.values( columns ).map( column => column.header );
 	}
 
 	render() {

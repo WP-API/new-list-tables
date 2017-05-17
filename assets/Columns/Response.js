@@ -27,3 +27,4 @@ export default class Response extends React.Component {
 		</td>;
 	}
 }
+Response.getHeader = ({ label }) => <th className="response column-response">{ label }</th>;

@@ -13,3 +13,4 @@ export default class Content extends React.Component {
 		</td>;
 	}
 }
+Content.getHeader = ({ label }) => <th className="comment column-comment">{ label }</th>;

@@ -7,3 +7,4 @@ export default class Checkbox extends React.Component {
 		</th>;
 	}
 }
+Checkbox.getHeader = () => <th className="column-cb check-column"></th>;
