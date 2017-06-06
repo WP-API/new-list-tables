@@ -124,16 +124,18 @@ export default class QuickEdit extends React.Component {
 				</div>
 
 				<p id="replysubmit" className="submit">
-					<a
+					<button
 						className="save button-primary alignright"
 						onClick={ e => this.onSubmit( e ) }
+						type="button"
 					>
 						{ button }
-					</a>
-					<a
+					</button>
+					<button
 						className="cancel button-secondary alignleft"
 						onClick={() => onCancel()}
-					>Cancel</a>
+						type="button"
+					>Cancel</button>
 					<span className="waiting spinner"></span>
 					<span className="error"></span>
 				</p>
