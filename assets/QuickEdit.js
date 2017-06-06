@@ -2,6 +2,8 @@ import React from 'react';
 
 import Editor from './Editor';
 
+const inputId = id => `quickedit-${id}`;
+
 export default class QuickEdit extends React.Component {
 	constructor(props) {
 		super(props);
@@ -71,8 +73,9 @@ export default class QuickEdit extends React.Component {
 				<legend>{ heading }</legend>
 
 				<div id="replycontainer">
-					<label className="screen-reader-text">Comment</label>
+					<label className="screen-reader-text" htmlFor="replycontent">Comment</label>
 					<Editor
+						id="replycontent"
 						value={ data.content }
 						onChange={ content => this.setState({ content }) }
 					/>
@@ -80,9 +83,10 @@ export default class QuickEdit extends React.Component {
 
 				<div id="edithead">
 					<div className="inside">
-						<label>Name</label>
+						<label htmlFor={ inputId( 'name' ) }>Name</label>
 						{' '}
 						<input
+							id={ inputId( 'name' ) }
 							name="newcomment_author"
 							size="50"
 							type="text"
@@ -92,9 +96,10 @@ export default class QuickEdit extends React.Component {
 					</div>
 
 					<div className="inside">
-						<label>Email</label>
+						<label htmlFor={ inputId( 'email' ) }>Email</label>
 						{' '}
 						<input
+							id={ inputId( 'email' ) }
 							name="newcomment_author_email"
 							size="50"
 							type="text"
@@ -104,9 +109,10 @@ export default class QuickEdit extends React.Component {
 					</div>
 
 					<div className="inside">
-						<label>URL</label>
+						<label htmlFor={ inputId( 'url' ) }>URL</label>
 						{' '}
 						<input
+							id={ inputId( 'url' ) }
 							className="code"
 							name="newcomment_author_url"
 							size="103"
