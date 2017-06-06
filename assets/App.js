@@ -6,21 +6,6 @@ import ListTable from './ListTable';
 
 import ColumnLegacy from './Columns/Legacy';
 
-const CommentRow = props => {
-	const { children, item } = props;
-	const classes = [ 'comment' ];
-	switch ( item.status ) {
-		case 'hold':
-			classes.push( 'unapproved' );
-			break
-		default:
-			classes.push( item.status );
-			break;
-	}
-
-	return <tr className={ classes.join( ' ' ) } children={ children } />;
-};
-
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -144,6 +129,25 @@ export default class App extends React.Component {
 		const { comments, loading, page, posts, total, totalPages } = this.state;
 		const columns = this.getColumns();
 
+		const CommentRow = props => {
+			const { children, item } = props;
+			const classes = [ 'comment' ];
+			switch ( item.status ) {
+				case 'hold':
+					classes.push( 'unapproved' );
+					break
+				default:
+					classes.push( item.status );
+					break;
+			}
+
+			const childrenWithPosts = React.Children.map( children, child => React.cloneElement( child, { posts } ) );
+			return <tr
+				className={ classes.join( ' ' ) }
+				children={ childrenWithPosts }
+			/>;
+		};
+
 		return <ListTable
 			columns={ columns }
 			columnData={ this.state.columnData }
@@ -151,7 +155,6 @@ export default class App extends React.Component {
 			items={ comments }
 			loading={ loading }
 			page={ page }
-			posts={ posts }
 			replying={ this.state.replying }
 			row={ CommentRow }
 			total={ total }

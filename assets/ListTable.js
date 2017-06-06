@@ -12,7 +12,7 @@ export default class ListTable extends React.Component {
 	}
 
 	render() {
-		const { columns, items, page, posts, onUpdate } = this.props;
+		const { columns, items, page, onUpdate } = this.props;
 
 		const itemComponents = items.map( item => {
 			return <Row
@@ -21,7 +21,6 @@ export default class ListTable extends React.Component {
 				columns={ columns }
 				columnData={ this.props.columnData[ item.id ] || {} }
 				item={ item }
-				posts={ posts }
 				onEdit={ () => this.props.onEdit( item.id ) }
 				onDelete={ () => this.props.onDelete( item.id ) }
 				onReply={ () => this.props.onReply( item.id ) }
