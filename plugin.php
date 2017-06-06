@@ -21,7 +21,7 @@ function register_admin_page() {
 		'edit_posts',
 		'nlt_comments',
 		__NAMESPACE__ . '\\render_page',
-		'dashboard-admin-comments',
+		'dashicons-admin-comments',
 		26
 	);
 
