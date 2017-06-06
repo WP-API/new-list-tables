@@ -1,5 +1,21 @@
 import React from 'react';
 
+const PageLink = props => {
+	const { children, isActive } = props;
+
+	if ( ! isActive ) {
+		return <span className='tablenav-pages-navspan'>{ children }</span>;
+	}
+
+	// Remove the isActive prop.
+	const otherProps = Object.assign( {}, props );
+	delete otherProps.isActive;
+	return <a { ...otherProps } />;
+};
+PageLink.propTypes = {
+	isActive: React.PropTypes.bool.isRequired,
+};
+
 export default class TopNav extends React.Component {
 	constructor(props) {
 		super(props);
@@ -28,21 +44,23 @@ export default class TopNav extends React.Component {
 				<div className="tablenav-pages">
 					<span className="displaying-num">{ total } items</span>
 					<span className="pagination-links">
-						<a
-							className={ page == 1 ? 'tablenav-pages-navspan' : 'first-page' }
+						<PageLink
+							className="first-page"
+							isActive={ page !== 1 }
 							onClick={ () => onJump( 1 ) }
 						>
 							<span className="screen-reader-text">First page</span>
 							<span aria-hidden="true">«</span>
-						</a>
+						</PageLink>
 						{ ' ' }
-						<a
-							className={ page == 1 ? 'tablenav-pages-navspan' : 'prev-page' }
+						<PageLink
+							className="prev-page"
+							isActive={ page !== 1 }
 							onClick={ () => onJump( page - 1 ) }
 						>
 							<span className="screen-reader-text">Previous page</span>
 							<span aria-hidden="true">‹</span>
-						</a>
+						</PageLink>
 						{ ' ' }
 						<span className="paging-input">
 							<label className="screen-reader-text">Current Page</label>
@@ -62,21 +80,23 @@ export default class TopNav extends React.Component {
 							</span>
 						</span>
 						{ ' ' }
-						<a
-							className={ page == totalPages ? 'tablenav-pages-navspan' : 'next-page' }
+						<PageLink
+							className="next-page"
+							isActive={ page !== totalPages }
 							onClick={ () => onJump( page + 1 ) }
 						>
 							<span className="screen-reader-text">Next page</span>
 							<span aria-hidden="true">›</span>
-						</a>
+						</PageLink>
 						{ ' ' }
-						<a
-							className={ page == totalPages ? 'tablenav-pages-navspan' : 'last-page' }
+						<PageLink
+							className="last-page"
+							isActive={ page !== totalPages }
 							onClick={ () => onJump( totalPages ) }
 						>
 							<span className="screen-reader-text">Last page</span>
 							<span aria-hidden="true">»</span>
-						</a>
+						</PageLink>
 					</span>
 				</div>
 			: null }
