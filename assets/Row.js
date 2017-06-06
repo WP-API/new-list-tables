@@ -11,22 +11,6 @@ export default class Row extends React.Component {
 			return React.createElement( columns[ key ].component, props );
 		});
 
-		const classes = [ 'comment' ];
-		switch ( item.status ) {
-			case 'hold':
-				classes.push( 'unapproved' );
-				break
-			default:
-				classes.push( item.status );
-				break;
-		}
-
-		return React.createElement(
-			component,
-			{
-				item,
-			},
-			columnElements
-		);
+		return React.createElement( component, { item }, columnElements );
 	}
 }
