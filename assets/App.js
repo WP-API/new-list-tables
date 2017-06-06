@@ -1,3 +1,4 @@
+import { stringify } from 'query-string';
 import React from 'react';
 
 import columns from './columns';
@@ -18,17 +19,30 @@ export default class App extends React.Component {
 				status: 'any',
 			},
 			// Also grab the posts.
-			success: () => this.collection.each( comment => {
-				const post = comment.get( '_embedded' ).up[0];
+			success: () => {
+				this.collection.each( comment => {
+					const post = comment.get( '_embedded' ).up[0];
 
-				this.setState( state => ({
-					posts: Object.assign( {}, state.posts, { [post.id]: post } )
-				}));
-			})
+					this.setState( state => ({
+						posts: Object.assign( {}, state.posts, { [post.id]: post } )
+					}));
+				})
+
+				// Fetch custom columns.
+				const params = {
+					comments: this.collection.pluck( 'id' ).join( ',' ),
+					columns: this.getLegacyColumns().join( ',' ),
+				};
+				const queryString = stringify( params );
+				const url = `${wpApiSettings.root}nlt/v1/comments/batch?${queryString}`;
+
+				fetch( url ).then( req => req.json() ).then( columnData => this.setState({ columnData }) );
+			}
 		});
 
 		this.state ={
 			comments: [],
+			columnData: {},
 			editing: null,
 			loading: true,
 			posts: {},
@@ -104,12 +118,20 @@ export default class App extends React.Component {
 		return columnList.reduce( ( obj, item ) => Object.assign( {}, obj, item ), {} );
 	}
 
+	getLegacyColumns() {
+		const componentable = columns;
+		const specified = this.props.columns;
+
+		return Object.keys( specified ).filter( key => ! ( key in componentable ) );
+	}
+
 	render() {
 		const { comments, loading, page, posts, total, totalPages } = this.state;
 		const columns = this.getColumns();
 
 		return <ListTable
 			columns={ columns }
+			columnData={ this.state.columnData }
 			editing={ this.state.editing }
 			items={ comments }
 			loading={ loading }

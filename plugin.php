@@ -35,9 +35,16 @@ function register_endpoints() {
 		'args' => array(
 			'comments' => array(
 				'required' => true,
-				'type' => 'object',
+				'type' => 'array',
 				'items' => array(
-					'type' => 'object',
+					'type' => 'integer',
+				),
+			),
+			'columns' => array(
+				'required' => true,
+				'type' => 'array',
+				'items' => array(
+					'type' => 'string',
 				),
 			),
 		),
@@ -137,19 +144,81 @@ function get_registered_columns( $list_table ) {
 function get_columns( $request ) {
 	$GLOBALS['hook_suffix'] = '';
 	require ABSPATH . 'wp-admin/includes/admin.php';
-	$list_table = _get_list_table('WP_Comments_List_Table');
-	require __DIR__ . '/class-wp-comments-reactive-list-table.php';
-	$list_table = new \WP_Comments_Reactive_List_Table();
+
+	set_current_screen( 'edit-comments' );
+	$list_table = _get_list_table( 'WP_Comments_List_Table' );
+
+	$get_data_for_columns = build_data_getter( $list_table );
 
 	$comments = $request['comments'];
+	$columns = $request['columns'];
 	$data = array();
-	foreach ( $comments as $id => $columns ) {
-		$columns = wp_parse_slug_list( $columns );
+	foreach ( $comments as $id ) {
 		$comment = get_comment( $id );
 		if ( empty( $comment ) ) {
 			return new \WP_Error( 'nlt.cannot_access', '', array( 'status' => \WP_HTTP::FORBIDDEN ) );
 		}
-		$data[ $id ] = $list_table->get_data_for_columns( $comment, $columns );
+		$data[ $id ] = $get_data_for_columns( $comment, $columns );
 	}
 	return $data;
+}
+
+function build_data_getter( $list_table ) {
+	$getter = function ( $item, $include ) {
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
+
+		$column_list = [];
+
+		foreach ( $columns as $column_name => $column_display_name ) {
+			if ( ! in_array( $column_name, $include ) ) {
+				continue;
+			}
+
+			$classes = "$column_name column-$column_name";
+			if ( $primary === $column_name ) {
+				$classes .= ' has-row-actions column-primary';
+			}
+
+			if ( in_array( $column_name, $hidden ) ) {
+				$classes .= ' hidden';
+			}
+
+			// Comments column uses HTML in the display name with screen reader text.
+			// Instead of using esc_attr(), we strip tags to get closer to a user-friendly string.
+			$data = 'data-colname="' . wp_strip_all_tags( $column_display_name ) . '"';
+
+			$attributes = "class='$classes' $data";
+
+			ob_start();
+			if ( 'cb' === $column_name ) {
+				echo '<th scope="row" class="check-column">';
+				echo $this->column_cb( $item );
+				echo '</th>';
+			} elseif ( method_exists( $this, '_column_' . $column_name ) ) {
+				echo call_user_func(
+					array( $this, '_column_' . $column_name ),
+					$item,
+					$classes,
+					$data,
+					$primary
+				);
+			} elseif ( method_exists( $this, 'column_' . $column_name ) ) {
+				echo "<td $attributes>";
+				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
+				echo $this->handle_row_actions( $item, $column_name, $primary );
+				echo "</td>";
+			} else {
+				echo "<td $attributes>";
+				echo $this->column_default( $item, $column_name );
+				echo $this->handle_row_actions( $item, $column_name, $primary );
+				echo "</td>";
+			}
+
+			$column_list[ $column_name ] = ob_get_clean();
+		}
+
+		return $column_list;
+	};
+
+	return $getter->bindTo( $list_table, $list_table );
 }

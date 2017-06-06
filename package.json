@@ -4,6 +4,7 @@
     "babel-loader": "^6.3.2",
     "babel-preset-react": "^6.23.0",
     "phpdate-js": "^1.0.2",
+    "query-string": "^4.3.4",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "webpack": "^2.2.1"
