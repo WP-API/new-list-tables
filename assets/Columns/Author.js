@@ -16,4 +16,4 @@ export default class Author extends React.Component {
 		</td>;
 	}
 }
-Author.getHeader = ({ label }) => <th className="author column-author">{ label }</th>;
+Author.getHeader = ({ label }) => <th className="author column-author" scope="col">{ label }</th>;
