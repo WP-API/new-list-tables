@@ -69,83 +69,88 @@ export default class QuickEdit extends React.Component {
 
 		return <tr id="replyrow" className="inline-edit-row">
 			<td className="colspanchange" colSpan={ span }>
-				<fieldset className="comment-reply">
-				<legend>{ heading }</legend>
+				<form
+					action=""
+					method="POST"
+					onSubmit={ e => this.onSubmit( e ) }
+				>
+					<fieldset className="comment-reply">
+					<legend>{ heading }</legend>
 
-				<div id="replycontainer">
-					<label className="screen-reader-text" htmlFor="replycontent">Comment</label>
-					<Editor
-						id="replycontent"
-						value={ data.content }
-						onChange={ content => this.setState({ content }) }
-					/>
-				</div>
-
-				<div id="edithead">
-					<div className="inside">
-						<label htmlFor={ inputId( 'name' ) }>Name</label>
-						{' '}
-						<input
-							id={ inputId( 'name' ) }
-							name="newcomment_author"
-							size="50"
-							type="text"
-							value={ data.author_name }
-							onChange={ e => this.setState({ author_name: e.target.value }) }
+					<div id="replycontainer">
+						<label className="screen-reader-text" htmlFor="replycontent">Comment</label>
+						<Editor
+							id="replycontent"
+							value={ data.content }
+							onChange={ content => this.setState({ content }) }
 						/>
 					</div>
 
-					<div className="inside">
-						<label htmlFor={ inputId( 'email' ) }>Email</label>
-						{' '}
-						<input
-							id={ inputId( 'email' ) }
-							name="newcomment_author_email"
-							size="50"
-							type="text"
-							value={ data.author_email }
-							onChange={ e => this.setState({ author_email: e.target.value }) }
-						/>
+					<div id="edithead">
+						<div className="inside">
+							<label htmlFor={ inputId( 'name' ) }>Name</label>
+							{' '}
+							<input
+								id={ inputId( 'name' ) }
+								name="newcomment_author"
+								size="50"
+								type="text"
+								value={ data.author_name }
+								onChange={ e => this.setState({ author_name: e.target.value }) }
+							/>
+						</div>
+
+						<div className="inside">
+							<label htmlFor={ inputId( 'email' ) }>Email</label>
+							{' '}
+							<input
+								id={ inputId( 'email' ) }
+								name="newcomment_author_email"
+								size="50"
+								type="text"
+								value={ data.author_email }
+								onChange={ e => this.setState({ author_email: e.target.value }) }
+							/>
+						</div>
+
+						<div className="inside">
+							<label htmlFor={ inputId( 'url' ) }>URL</label>
+							{' '}
+							<input
+								id={ inputId( 'url' ) }
+								className="code"
+								name="newcomment_author_url"
+								size="103"
+								type="url"
+								value={ data.author_url }
+								onChange={ e => this.setState({ author_url: e.target.value }) }
+							/>
+						</div>
 					</div>
 
-					<div className="inside">
-						<label htmlFor={ inputId( 'url' ) }>URL</label>
-						{' '}
-						<input
-							id={ inputId( 'url' ) }
-							className="code"
-							name="newcomment_author_url"
-							size="103"
-							type="url"
-							value={ data.author_url }
-							onChange={ e => this.setState({ author_url: e.target.value }) }
-						/>
-					</div>
-				</div>
+					<p id="replysubmit" className="submit">
+						<button
+							className="save button-primary alignright"
+							type="submit"
+						>
+							{ button }
+						</button>
+						<button
+							className="cancel button alignleft"
+							onClick={() => onCancel()}
+							type="button"
+						>Cancel</button>
+						<span className="waiting spinner"></span>
+						<span className="error"></span>
+					</p>
 
-				<p id="replysubmit" className="submit">
-					<button
-						className="save button-primary alignright"
-						onClick={ e => this.onSubmit( e ) }
-						type="button"
-					>
-						{ button }
-					</button>
-					<button
-						className="cancel button alignleft"
-						onClick={() => onCancel()}
-						type="button"
-					>Cancel</button>
-					<span className="waiting spinner"></span>
-					<span className="error"></span>
-				</p>
-
-				<input type="hidden" name="action" id="action" value="" />
-				<input type="hidden" name="comment_ID" id="comment_ID" value="" />
-				<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="" />
-				<input type="hidden" name="status" id="status" value="" />
-				{/*<input type="hidden" name="position" id="position" value="<?php echo $position; ?>" />*/}
-				</fieldset>
+					<input type="hidden" name="action" id="action" value="" />
+					<input type="hidden" name="comment_ID" id="comment_ID" value="" />
+					<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="" />
+					<input type="hidden" name="status" id="status" value="" />
+					{/*<input type="hidden" name="position" id="position" value="<?php echo $position; ?>" />*/}
+					</fieldset>
+				</form>
 			</td>
 		</tr>;
 	}
