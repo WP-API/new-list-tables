@@ -6,6 +6,21 @@ import ListTable from './ListTable';
 
 import ColumnLegacy from './Columns/Legacy';
 
+const CommentRow = props => {
+	const { children, item } = props;
+	const classes = [ 'comment' ];
+	switch ( item.status ) {
+		case 'hold':
+			classes.push( 'unapproved' );
+			break
+		default:
+			classes.push( item.status );
+			break;
+	}
+
+	return <tr className={ classes.join( ' ' ) } children={ children } />;
+};
+
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -138,6 +153,7 @@ export default class App extends React.Component {
 			page={ page }
 			posts={ posts }
 			replying={ this.state.replying }
+			row={ CommentRow }
 			total={ total }
 			totalPages={ totalPages }
 			onEdit={ id => this.setState({ editing: id }) }

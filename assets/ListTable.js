@@ -17,6 +17,7 @@ export default class ListTable extends React.Component {
 		const itemComponents = items.map( item => {
 			return <Row
 				key={ item.id }
+				component={ this.props.row }
 				columns={ columns }
 				columnData={ this.props.columnData[ item.id ] || {} }
 				item={ item }

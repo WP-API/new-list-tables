@@ -4,7 +4,7 @@ import ColumnLegacy from './Columns/Legacy';
 
 export default class Row extends React.Component {
 	render() {
-		const { columns, item, posts, onDelete, onUpdate } = this.props;
+		const { columns, component, item } = this.props;
 
 		const columnElements = Object.keys( columns ).map( key => {
 			const props = Object.assign( {}, this.props, { key, columnKey: key, column: columns[ key ] } );
@@ -21,6 +21,12 @@ export default class Row extends React.Component {
 				break;
 		}
 
-		return <tr className={ classes.join( ' ' ) } children={ columnElements } />;
+		return React.createElement(
+			component,
+			{
+				item,
+			},
+			columnElements
+		);
 	}
 }
