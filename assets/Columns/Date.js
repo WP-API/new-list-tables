@@ -9,4 +9,4 @@ export default class Date extends React.Component {
 		</td>;
 	}
 }
-Date.getHeader = ({ label }) => <th className="date column-date">{ label }</th>;
+Date.getHeader = ({ label }) => <th className="date column-date" scope="col">{ label }</th>;
