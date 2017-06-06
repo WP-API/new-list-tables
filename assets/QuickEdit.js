@@ -132,7 +132,7 @@ export default class QuickEdit extends React.Component {
 						{ button }
 					</button>
 					<button
-						className="cancel button-secondary alignleft"
+						className="cancel button alignleft"
 						onClick={() => onCancel()}
 						type="button"
 					>Cancel</button>
