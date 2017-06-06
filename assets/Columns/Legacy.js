@@ -1,8 +1,14 @@
 import React from 'react';
+import parser from 'react-html-parser';
 
 export default class Legacy extends React.Component {
 	render() {
-		const { column } = this.props;
+		const { column, columnData, columnKey } = this.props;
+
+		if ( columnKey in columnData ) {
+			// Custom column available!
+			return parser( columnData[ columnKey ] )[0];
+		}
 
 		return <td className={`column-${column.id}`}>
 			<span className="spinner is-active" />

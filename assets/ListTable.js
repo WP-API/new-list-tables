@@ -18,6 +18,7 @@ export default class ListTable extends React.Component {
 			return <Row
 				key={ item.id }
 				columns={ columns }
+				columnData={ this.props.columnData[ item.id ] || {} }
 				item={ item }
 				posts={ posts }
 				onEdit={ () => this.props.onEdit( item.id ) }
