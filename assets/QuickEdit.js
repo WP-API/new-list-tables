@@ -131,7 +131,6 @@ export default class QuickEdit extends React.Component {
 					<p id="replysubmit" className="submit">
 						<button
 							className="save button-primary alignright"
-							onClick={ e => this.onSubmit( e ) }
 							type="submit"
 						>
 							{ button }
