@@ -11,35 +11,36 @@ export default class ListTable extends React.Component {
 		return Object.values( columns ).map( column => column.header );
 	}
 
-	render() {
-		const { columns, items, page, onUpdate } = this.props;
-
-		const itemComponents = items.map( item => {
-			return <Row
-				key={ item.id }
-				component={ this.props.row }
-				columns={ columns }
-				columnData={ this.props.columnData[ item.id ] || {} }
-				item={ item }
-				onEdit={ () => this.props.onEdit( item.id ) }
-				onDelete={ () => this.props.onDelete( item.id ) }
-				onReply={ () => this.props.onReply( item.id ) }
-				onUpdate={ data => onUpdate( item.id, data ) }
-			/>
-		});
-
-		if ( this.props.editing ) {
+	getRow( item, index ) {
+		if ( this.props.editing === item.id ) {
 			// Editing, replace the row with an editor.
-			const index = items.findIndex( item => item.id === this.props.editing );
-			const item = items[ index ];
-			itemComponents[ index ] = <QuickEdit
+			return <QuickEdit
 				key={ `edit-${this.props.editing}` }
-				columns={ columns }
+				columns={ this.props.columns }
 				item={ item }
 				onCancel={ () => this.props.onEdit( null ) }
 				onSubmit={ data => { onUpdate( item.id, data ); this.props.onEdit( null ); } }
 			/>;
-		} else if ( this.props.replying ) {
+		}
+
+		return <Row
+			key={ item.id }
+			component={ this.props.row }
+			columns={ this.props.columns }
+			columnData={ this.props.columnData[ item.id ] || {} }
+			item={ item }
+			onEdit={ () => this.props.onEdit( item.id ) }
+			onDelete={ () => this.props.onDelete( item.id ) }
+			onReply={ () => this.props.onReply( item.id ) }
+			onUpdate={ data => onUpdate( item.id, data ) }
+		/>;
+	}
+
+	render() {
+		const { columns, items, page, onUpdate } = this.props;
+
+		const itemComponents = items.map( ( item, idx ) => this.getRow( item, idx ) );
+		if ( this.props.replying ) {
 			// Replying, insert after the comment.
 			const index = items.findIndex( item => item.id === this.props.replying );
 			const replyer = <QuickEdit
