@@ -118,9 +118,12 @@ function prepare_page() {
 }
 
 function render_page() {
+	$controller = TableController::instance();
+	$table_id = $controller->get_id_for_hook( current_action() );
+	$options = $controller->get_table( $table_id );
 	?>
 	<div class="wrap">
-		<h1 class="wp-heading-inline">Comments</h1>
+		<h1 class="wp-heading-inline"><?php echo esc_html( $options['page_title'] ) ?></h1>
 
 		<div id="comments-form">
 			<table id="nlk-table" class="wp-list-table widefat fixed striped"></table>
