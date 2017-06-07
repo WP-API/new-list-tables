@@ -1,10 +1,10 @@
-import { stringify } from 'query-string';
 import React from 'react';
 
 import columns from './columns';
 import ListTable from './ListTable';
 
 import ColumnLegacy from './Columns/Legacy';
+import loadColumnData from './lib/loadColumnData';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -28,15 +28,8 @@ export default class App extends React.Component {
 					}));
 				})
 
-				// Fetch custom columns.
-				const params = {
-					comments: this.collection.pluck( 'id' ).join( ',' ),
-					columns: this.getLegacyColumns().join( ',' ),
-				};
-				const queryString = stringify( params );
-				const url = `${wpApiSettings.root}nlt/v1/comments/batch?${queryString}`;
-
-				fetch( url ).then( req => req.json() ).then( columnData => this.setState({ columnData }) );
+				loadColumnData( this.collection, this.getLegacyColumns() )
+					.then( columnData => this.setState({ columnData }) );
 			}
 		});
 
