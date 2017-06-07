@@ -10,22 +10,28 @@ add_action( 'plugins_loaded', __NAMESPACE__ . '\\bootstrap' );
 function bootstrap() {
 	defined( 'NLK_SCRIPT_DEBUG' ) or define( 'NLK_SCRIPT_DEBUG', true );
 
+	require __DIR__ . '/inc/class-tablecontroller.php';
+
 	add_action( 'admin_menu', __NAMESPACE__ . '\\register_admin_page' );
 	add_action( 'rest_api_init', __NAMESPACE__ . '\\register_endpoints' );
 }
 
 function register_admin_page() {
-	$hook = add_menu_page(
-		'New Comments',
-		'New Comments',
-		'edit_posts',
-		'nlt_comments',
-		__NAMESPACE__ . '\\render_page',
-		'dashicons-admin-comments',
-		26
-	);
+	$tables = TableController::instance()->get_tables();
+	foreach ( $tables as $id => $table ) {
+		$hook = add_menu_page(
+			$table['page_title'],
+			$table['menu_title'],
+			$table['capability'],
+			sprintf( 'nlt_%s', $id ),
+			__NAMESPACE__ . '\\render_page',
+			$table['icon'],
+			26
+		);
 
-	add_action( 'load-' . $hook, __NAMESPACE__ . '\\prepare_page' );
+		TableController::instance()->set_hook( $id, $hook );
+		add_action( 'load-' . $hook, __NAMESPACE__ . '\\prepare_page' );
+	}
 }
 
 function register_endpoints() {
@@ -33,7 +39,11 @@ function register_endpoints() {
 		'callback' => __NAMESPACE__ . '\\get_columns',
 		'methods' => 'GET',
 		'args' => array(
-			'comments' => array(
+			'id' => array(
+				'required' => true,
+				'type' => 'string',
+			),
+			'items' => array(
 				'required' => true,
 				'type' => 'array',
 				'items' => array(
@@ -65,6 +75,10 @@ function register_endpoints() {
 }
 
 function prepare_page() {
+	$controller = TableController::instance();
+	$table_id = $controller->get_id_for_hook( current_action(), 'load-' );
+	$options = $controller->get_table( $table_id );
+
 	/*wp_enqueue_script(
 		'nlk',
 		plugins_url( 'assets/table.js', __FILE__ ),
@@ -88,14 +102,15 @@ function prepare_page() {
 	);
 	wp_enqueue_style( 'editor-buttons' );
 
-	set_current_screen( 'edit-comments' );
-	$list_table = _get_list_table('WP_Comments_List_Table');
+	set_current_screen( $options['screen'] );
+	$list_table = _get_list_table( $options['table'] );
 
 	$columns = get_registered_columns( $list_table );
 	wp_localize_script(
 		'nlk-react',
 		'nlkOptions',
 		array(
+			'id'            => $table_id,
 			'columns'       => $columns->columns,
 			'primaryColumn' => $columns->primary,
 		)
@@ -145,15 +160,22 @@ function get_columns( $request ) {
 	$GLOBALS['hook_suffix'] = '';
 	require ABSPATH . 'wp-admin/includes/admin.php';
 
-	set_current_screen( 'edit-comments' );
-	$list_table = _get_list_table( 'WP_Comments_List_Table' );
+	$table_id = $request['id'];
+	$options = TableController::instance()->get_table( $table_id );
+	if ( empty( $options ) || ! current_user_can( $options['capability'] ) ) {
+		var_dump( $options );
+		return new \WP_Error( 'nlt.cannot_access', '', array( 'status' => \WP_HTTP::FORBIDDEN ) );
+	}
+
+	set_current_screen( $options['screen'] );
+	$list_table = _get_list_table( $options['table'] );
 
 	$get_data_for_columns = build_data_getter( $list_table );
 
-	$comments = $request['comments'];
+	$items = $request['items'];
 	$columns = $request['columns'];
 	$data = array();
-	foreach ( $comments as $id ) {
+	foreach ( $items as $id ) {
 		$comment = get_comment( $id );
 		if ( empty( $comment ) ) {
 			return new \WP_Error( 'nlt.cannot_access', '', array( 'status' => \WP_HTTP::FORBIDDEN ) );

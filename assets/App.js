@@ -28,7 +28,7 @@ export default class App extends React.Component {
 					}));
 				})
 
-				loadColumnData( this.collection, this.getLegacyColumns() )
+				loadColumnData( this.props.id, this.collection, this.getLegacyColumns() )
 					.then( columnData => this.setState({ columnData }) );
 			}
 		});
