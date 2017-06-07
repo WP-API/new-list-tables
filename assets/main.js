@@ -1,11 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+import CommentsTable from './Tables/Comments';
 
 const init = () => {
+	let Component;
+	switch ( window.nlkOptions.id ) {
+		case 'comments':
+			Component = CommentsTable;
+			break;
+	}
+
 	ReactDOM.render(
-		<App {...window.nlkOptions} />,
+		<Component {...window.nlkOptions} />,
 		document.getElementById( 'comments-form' )
 	);
 };
