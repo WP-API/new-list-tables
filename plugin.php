@@ -11,6 +11,7 @@ function bootstrap() {
 	defined( 'NLK_SCRIPT_DEBUG' ) or define( 'NLK_SCRIPT_DEBUG', true );
 
 	require __DIR__ . '/inc/class-tablecontroller.php';
+	require __DIR__ . '/inc/class-tablehelper.php';
 
 	add_action( 'admin_menu', __NAMESPACE__ . '\\register_admin_page' );
 	add_action( 'rest_api_init', __NAMESPACE__ . '\\register_endpoints' );
@@ -104,8 +105,9 @@ function prepare_page() {
 
 	set_current_screen( $options['screen'] );
 	$list_table = _get_list_table( $options['table'] );
+	$helper = new TableHelper( $list_table );
 
-	$columns = get_registered_columns( $list_table );
+	$columns = $helper->get_registered_columns();
 	wp_localize_script(
 		'nlk-react',
 		'nlkOptions',
@@ -132,33 +134,6 @@ function render_page() {
 	<?php
 }
 
-function get_registered_columns( $list_table ) {
-	list( $columns, $hidden, $sortable, $primary ) = $list_table->get_column_info();
-
-	$data = (object) array(
-		'primary' => $primary,
-		'columns' => (object) array(),
-	);
-	foreach ( $columns as $id => $label ) {
-		$item = (object) array(
-			'id' => $id,
-			'label' => $label,
-		);
-		if ( isset( $sortable[ $id ] ) ) {
-			$item->sort = array(
-				'field'      => $sortable[ $id ][0],
-				'descending' => $sortable[ $id ][1]
-			);
-		} else {
-			$item->sort = false;
-		}
-
-		$data->columns->$id = $item;
-	}
-
-	return $data;
-}
-
 function get_columns( $request ) {
 	$GLOBALS['hook_suffix'] = '';
 	require ABSPATH . 'wp-admin/includes/admin.php';
@@ -172,8 +147,7 @@ function get_columns( $request ) {
 
 	set_current_screen( $options['screen'] );
 	$list_table = _get_list_table( $options['table'] );
-
-	$get_data_for_columns = build_data_getter( $list_table );
+	$helper = new TableHelper( $list_table );
 
 	$items = $request['items'];
 	$columns = $request['columns'];
@@ -183,67 +157,7 @@ function get_columns( $request ) {
 		if ( empty( $comment ) ) {
 			return new \WP_Error( 'nlt.cannot_access', '', array( 'status' => \WP_HTTP::FORBIDDEN ) );
 		}
-		$data[ $id ] = $get_data_for_columns( $comment, $columns );
+		$data[ $id ] = $helper->get_data_for_columns( $comment, $columns );
 	}
 	return $data;
-}
-
-function build_data_getter( $list_table ) {
-	$getter = function ( $item, $include ) {
-		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
-
-		$column_list = [];
-
-		foreach ( $columns as $column_name => $column_display_name ) {
-			if ( ! in_array( $column_name, $include ) ) {
-				continue;
-			}
-
-			$classes = "$column_name column-$column_name";
-			if ( $primary === $column_name ) {
-				$classes .= ' has-row-actions column-primary';
-			}
-
-			if ( in_array( $column_name, $hidden ) ) {
-				$classes .= ' hidden';
-			}
-
-			// Comments column uses HTML in the display name with screen reader text.
-			// Instead of using esc_attr(), we strip tags to get closer to a user-friendly string.
-			$data = 'data-colname="' . wp_strip_all_tags( $column_display_name ) . '"';
-
-			$attributes = "class='$classes' $data";
-
-			ob_start();
-			if ( 'cb' === $column_name ) {
-				echo '<th scope="row" class="check-column">';
-				echo $this->column_cb( $item );
-				echo '</th>';
-			} elseif ( method_exists( $this, '_column_' . $column_name ) ) {
-				echo call_user_func(
-					array( $this, '_column_' . $column_name ),
-					$item,
-					$classes,
-					$data,
-					$primary
-				);
-			} elseif ( method_exists( $this, 'column_' . $column_name ) ) {
-				echo "<td $attributes>";
-				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
-				echo $this->handle_row_actions( $item, $column_name, $primary );
-				echo "</td>";
-			} else {
-				echo "<td $attributes>";
-				echo $this->column_default( $item, $column_name );
-				echo $this->handle_row_actions( $item, $column_name, $primary );
-				echo "</td>";
-			}
-
-			$column_list[ $column_name ] = ob_get_clean();
-		}
-
-		return $column_list;
-	};
-
-	return $getter->bindTo( $list_table, $list_table );
 }
