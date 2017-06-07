@@ -1,6 +1,5 @@
 import React from 'react';
 
-import columns from './columns';
 import QuickEdit from './QuickEdit';
 import Row from './Row';
 import TopNav from './TopNav';
