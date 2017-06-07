@@ -16,9 +16,5 @@ export default class Legacy extends React.Component {
 	}
 }
 Legacy.getHeader = ({ id, label }) => {
-	let labelText = label;
-	if ( labelText.startsWith( '<input' ) ) {
-		labelText = '';
-	}
-	return <th className={`column-${id}`} scope="col">{ labelText }</th>;
+	return <th className={`column-${id}`} scope="col">{ parser( label )[0] }</th>;
 };
