@@ -24,11 +24,13 @@ const columns = {
 		className: 'comment column-comment',
 		component: ColumnContent,
 	},
+	/*
 	response: {
 		label: 'In Response To',
 		className: 'response column-response',
 		component: ColumnResponse,
 	},
+	*/
 	date: {
 		label: 'Submitted On',
 		className: 'date column-date',
