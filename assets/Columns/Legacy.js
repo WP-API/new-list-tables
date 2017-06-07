@@ -15,4 +15,10 @@ export default class Legacy extends React.Component {
 		</td>
 	}
 }
-Legacy.getHeader = ({ id, label }) => <th className={`column-${id}`} scope="col">{ label }</th>;
+Legacy.getHeader = ({ id, label }) => {
+	let labelText = label;
+	if ( labelText.startsWith( '<input' ) ) {
+		labelText = '';
+	}
+	return <th className={`column-${id}`} scope="col">{ labelText }</th>;
+};

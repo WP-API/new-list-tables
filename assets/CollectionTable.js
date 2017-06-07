@@ -98,11 +98,6 @@ export default class CollectionTable extends React.Component {
 				component,
 			};
 
-			// Hack:
-			if ( data.label.startsWith( '<input' ) ) {
-				data.label = '';
-			}
-
 			return { [key]: data };
 		});
 
