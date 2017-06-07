@@ -28,12 +28,14 @@ export default class CollectionTable extends React.Component {
 		collection.on( 'add', this.onCollectionUpdate );
 		collection.on( 'remove', this.onCollectionUpdate );
 		collection.on( 'change', this.onCollectionUpdate );
+		collection.on( 'reset', this.onCollectionUpdate );
 	}
 
 	disconnectCollection( collection ) {
 		collection.off( 'add', this.onCollectionUpdate );
 		collection.off( 'remove', this.onCollectionUpdate );
 		collection.off( 'change', this.onCollectionUpdate );
+		collection.off( 'reset', this.onCollectionUpdate );
 	}
 
 	componentWillReceiveProps( nextProps ) {

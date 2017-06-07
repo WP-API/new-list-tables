@@ -14,6 +14,7 @@ export default class Comments extends React.Component {
 
 		this.collection = new wp.api.collections.Comments();
 		this.collection.fetch({
+			reset: true,
 			data: {
 				context: 'edit',
 				_embed: 'true',
