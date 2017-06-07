@@ -66,9 +66,10 @@ export default class CollectionTable extends React.Component {
 
 		// ...and actually load
 		this.props.collection.more({
+			reset: true,
 			data: {
 				page: page,
-			}
+			},
 		});
 	}
 
