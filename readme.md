@@ -4,12 +4,15 @@ The New List Tables (NLT) project is a React-based prototyping area for ideas ar
 
 <img src="http://i.imgur.com/r3n9Q8R.gif" />
 
+## Currently Supported
+
+* **Support for multiple list tables**: To ensure the approach applies across multiple different screens, the multiple list tables need to be prototyped. Currently, comments and posts are supported.
+* **Support for "legacy" columns (non-JS)**: Exploring the backwards compatibility system is key. The current implementation asynchronously loads all columns which aren't supported in JS.
 
 ## Roadmap
 
-* **Support for the posts list table**: To ensure the approach applies across multiple different screens, the posts list table needs to be prototyped as well.
 * **Plugin interface to register custom columns**: We need to provide a way to register custom behaviour.
-* **Support for "legacy" columns (non-JS)**: Exploring the backwards compatibility system is key.
+* **Support for custom list tables**: We should also allow registering additional list tables to support.
 
 
 ## Contributing
