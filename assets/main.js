@@ -18,7 +18,7 @@ const init = () => {
 
 	ReactDOM.render(
 		<Component {...window.nlkOptions} />,
-		document.getElementById( 'comments-form' )
+		document.getElementById( 'nlk-table-wrap' )
 	);
 };
 

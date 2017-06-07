@@ -127,7 +127,7 @@ function render_page() {
 	<div class="wrap">
 		<h1 class="wp-heading-inline"><?php echo esc_html( $options['page_title'] ) ?></h1>
 
-		<div id="comments-form">
+		<div id="nlk-table-wrap">
 			<table id="nlk-table" class="wp-list-table widefat fixed striped"></table>
 		</div>
 	</div>
