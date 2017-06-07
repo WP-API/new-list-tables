@@ -27,9 +27,16 @@ class TableController {
 			'menu_title'   => 'New Posts',
 			'capability'   => 'edit_posts',
 			'icon'         => 'dashicons-admin-post',
-			'screen'       => 'edit-posts',
+			'screen'       => 'edit',
 			'table'        => 'WP_Posts_List_Table',
-			'get_callback' => 'get_post',
+			'get_callback' => function ( $id ) {
+				$post = get_post( $id );
+				if ( $post ) {
+					$GLOBALS['post'] = $post;
+					setup_postdata( $post );
+				}
+				return $post;
+			},
 		) );
 	}
 
