@@ -141,7 +141,6 @@ function get_columns( $request ) {
 	$table_id = $request['id'];
 	$options = TableController::instance()->get_table( $table_id );
 	if ( empty( $options ) || ! current_user_can( $options['capability'] ) ) {
-		var_dump( $options );
 		return new \WP_Error( 'nlt.cannot_access', '', array( 'status' => \WP_HTTP::FORBIDDEN ) );
 	}
 
