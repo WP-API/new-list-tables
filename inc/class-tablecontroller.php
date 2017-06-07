@@ -18,7 +18,9 @@ class TableController {
 			'icon'         => 'dashicons-admin-comments',
 			'screen'       => 'edit-comments',
 			'table'        => 'WP_Comments_List_Table',
-			'get_callback' => 'get_comment',
+			'get_callback' => function ( $comment ) {
+				return get_comment( $comment );
+			},
 		) );
 	}
 
