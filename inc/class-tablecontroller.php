@@ -11,17 +11,6 @@ class TableController {
 	public function __construct() {
 		$this->tables = array();
 
-		$this->register( 'comments', array(
-			'page_title'   => 'New Comments',
-			'menu_title'   => 'New Comments',
-			'capability'   => 'edit_posts',
-			'icon'         => 'dashicons-admin-comments',
-			'screen'       => 'edit-comments',
-			'table'        => 'WP_Comments_List_Table',
-			'get_callback' => function ( $comment ) {
-				return get_comment( $comment );
-			},
-		) );
 		$this->register( 'posts', array(
 			'page_title'   => 'New Posts',
 			'menu_title'   => 'New Posts',
@@ -36,6 +25,25 @@ class TableController {
 					setup_postdata( $post );
 				}
 				return $post;
+			},
+		) );
+		$this->register( 'comments', array(
+			'page_title'   => 'New Comments',
+			'menu_title'   => 'New Comments',
+			'capability'   => 'edit_posts',
+			'icon'         => 'dashicons-admin-comments',
+			'screen'       => 'edit-comments',
+			'table'        => 'WP_Comments_List_Table',
+			'get_callback' => function ( $id ) {
+				$comment = get_comment( $id );
+				if ( $comment ) {
+					$GLOBALS['comment'] = $comment;
+					if ( $comment->comment_post_ID > 0 ) {
+						$GLOBALS['post'] = get_post( $comment->comment_post_ID );
+					}
+				}
+
+				return $comment;
 			},
 		) );
 	}
