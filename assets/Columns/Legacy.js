@@ -15,4 +15,6 @@ export default class Legacy extends React.Component {
 		</td>
 	}
 }
-Legacy.getHeader = ({ id, label }) => <th className={`column-${id}`} scope="col">{ label }</th>;
+Legacy.getHeader = ({ id, label }) => {
+	return <th className={`column-${id}`} scope="col">{ parser( label )[0] }</th>;
+};
