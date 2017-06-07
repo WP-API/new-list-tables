@@ -31,8 +31,6 @@ export default class Posts extends React.Component {
 			const { children, item } = props;
 			const classes = [ 'hentry', 'type-post' ];
 
-			console.log( children );
-
 			return <tr
 				className={ classes.join( ' ' ) }
 				children={ children }
