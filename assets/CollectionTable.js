@@ -144,9 +144,10 @@ CollectionTable.propTypes = {
 	columns: React.PropTypes.object.isRequired,
 	columnComponents: React.PropTypes.object,
 	id: React.PropTypes.string.isRequired,
-	row: React.PropTypes.func.isRequired,
+	row: React.PropTypes.func,
 };
 
 CollectionTable.defaultProps = {
 	columnComponents: {},
+	row: props => <tr children={ props.children } />,
 };
