@@ -22,6 +22,15 @@ class TableController {
 				return get_comment( $comment );
 			},
 		) );
+		$this->register( 'posts', array(
+			'page_title'   => 'New Posts',
+			'menu_title'   => 'New Posts',
+			'capability'   => 'edit_posts',
+			'icon'         => 'dashicons-admin-post',
+			'screen'       => 'edit-posts',
+			'table'        => 'WP_Posts_List_Table',
+			'get_callback' => 'get_post',
+		) );
 	}
 
 	public static function instance() {

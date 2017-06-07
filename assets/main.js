@@ -2,12 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import CommentsTable from './Tables/Comments';
+import PostsTable from './Tables/Posts';
 
 const init = () => {
 	let Component;
 	switch ( window.nlkOptions.id ) {
 		case 'comments':
 			Component = CommentsTable;
+			break;
+
+		case 'posts':
+			Component = PostsTable;
 			break;
 	}
 
