@@ -18,6 +18,9 @@ function bootstrap() {
 }
 
 function register_admin_page() {
+	// Add separator before our pages.
+	$GLOBALS['menu'][40] = array( '', 'read', 'nlk-separator', '', 'wp-menu-separator' );
+
 	$tables = TableController::instance()->get_tables();
 	foreach ( $tables as $id => $table ) {
 		$hook = add_menu_page(
@@ -27,7 +30,7 @@ function register_admin_page() {
 			sprintf( 'nlt_%s', $id ),
 			__NAMESPACE__ . '\\render_page',
 			$table['icon'],
-			26
+			41
 		);
 
 		TableController::instance()->set_hook( $id, $hook );
