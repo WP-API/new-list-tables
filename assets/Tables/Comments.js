@@ -57,10 +57,10 @@ export default class Comments extends React.Component {
 		};
 
 		return <CollectionTable
-			id={ this.props.id }
 			collection={ this.collection }
 			columns={ this.props.columns }
 			columnComponents={ columns }
+			id="comments"
 			row={ CommentRow }
 		/>;
 	}
