@@ -1,8 +1,14 @@
 import React from 'react';
 
-const columns = {};
-
 import CollectionTable from '../CollectionTable';
+import ColumnCheckbox from '../Columns/Checkbox';
+const columns = {
+	cb: {
+		label: '',
+		className: 'column-cb check-column',
+		component: ColumnCheckbox,
+	},
+};
 
 export default class Posts extends React.Component {
 	constructor(props) {
@@ -36,6 +42,7 @@ export default class Posts extends React.Component {
 		return <CollectionTable
 			collection={ this.collection }
 			columns={ this.props.columns }
+			columnComponents={ columns }
 			id="posts"
 			row={ PostRow }
 		/>
