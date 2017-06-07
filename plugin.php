@@ -176,7 +176,7 @@ function get_columns( $request ) {
 	$columns = $request['columns'];
 	$data = array();
 	foreach ( $items as $id ) {
-		$comment = get_comment( $id );
+		$comment = call_user_func( $options['get_callback'], $id );
 		if ( empty( $comment ) ) {
 			return new \WP_Error( 'nlt.cannot_access', '', array( 'status' => \WP_HTTP::FORBIDDEN ) );
 		}
