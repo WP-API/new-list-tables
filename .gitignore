@@ -1,6 +1,15 @@
-.DS_Store
-node_modules/
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+### Node ###
+# Log
 *.log
-*.orig
-.tmp/
-.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
