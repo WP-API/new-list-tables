@@ -1,6 +1,6 @@
 # New List Tables
 
-The New List Tables (NLT) project is a React-based prototyping area for ideas around content management improvements in WordPress. This project is being lead by the REST API core focus, and aims to modernise the WordPress Dashboard.
+The New List Tables (NLT) project is a React-based prototyping area for ideas around content management improvements in WordPress. This project was lead by the REST API core focus team, and aimed to modernise the WordPress Dashboard. While archived, the repository is left here for posterity as potential inspiration to the [Gutenberg](https://github.com/wordpress/gutenberg) team.
 
 <img src="http://i.imgur.com/r3n9Q8R.gif" />
 
