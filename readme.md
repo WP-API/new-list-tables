@@ -31,7 +31,7 @@ The NLT project is built in React, and requires a build process via tools availa
 1. Clone the project via git into your plugins directory:
 
    ```
-   git clone https://github.com/rmccue/new-list-table
+   git clone https://github.com/WP-API/new-list-tables
    ```
 
 2. Install the npm dependencies:
